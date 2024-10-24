@@ -1,0 +1,53 @@
+/* 容器整体居中 */
+.container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .image-area {
+    width: 400px;
+    height: 300px;
+    background-color: #add8e6;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    border-radius: 8px;
+  }
+  
+  .upload-button, .search-button {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #f0f0f0;
+  }
+  
+  .upload-button:hover, .search-button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .upload-button {
+    color: #007bff;
+  }
+  
+  .search-button {
+    color: #007bff;
+  }
+  
+  .music-name {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
