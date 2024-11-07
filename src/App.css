@@ -58,3 +58,28 @@
     margin-right: auto;
     text-align: center;
   }
+
+  .results {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .result-item {
+    width: 400px; /* 设置为与图片相同的宽度 */
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .result-item audio {
+    width: 100%; /* 使音频播放器宽度与 .result-item 宽度一致 */
+    border-radius: 8px;
+    background-color: #f5f5f5;
+  }

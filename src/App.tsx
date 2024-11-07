@@ -1,39 +1,77 @@
 import React, { useState } from 'react';
 import './App.css';
 
+// 定义正确的接口结构
+interface Match {
+  id: string;
+  score: number;
+  values: any[]; // 如果 values 是数组且类型未知，可以使用 any[]
+  metadata: {
+    audioUrl: string;
+  };
+}
+
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [musicName, setMusicName] = useState<string>('');
-  const [recognizedAudioURL, setRecognizedAudioURL] = useState<string | null>(null);
+  const [results, setResults] = useState<Match[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
-      setMusicName(''); // 清除之前的音乐名称
-      setRecognizedAudioURL(null); // 清除之前的识别结果
+      setResults([]); // Clear previous results when a new file is uploaded
     }
   };
 
-  const handleSearch = () => {
-    if (selectedFile) {
-      setMusicName("Recognized Music Name: Example Song");
-  
-      const audioUrl = 'https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151';
-      setRecognizedAudioURL(audioUrl);
-      console.log("Recognized Audio URL:", audioUrl);
+  const handleSearch = async () => {
+    if (!selectedFile) {
+      console.log("请先上传一个文件");
+      return;
     }
+
+    // 使用新的模拟数据进行测试
+    const simulatedResponse = {
+      matches: [
+        {
+          id: "song2",
+          score: 315.312469,
+          values: [],
+          metadata: {
+            audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
+          },
+        },
+        {
+          id: "song1",
+          score: 155.427185,
+          values: [],
+          metadata: {
+            audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
+          },
+        },
+      ],
+      namespace: "embedding",
+      usage: {
+        read_units: 6,
+      },
+    };
+
+    console.log("使用新的模拟数据:", simulatedResponse);
+
+    // 将 matches 的数据直接设置为 setResults
+    setResults(simulatedResponse.matches);
   };
 
   return (
     <div className="container">
       <h1>Music Recognition App</h1>
-      
-      {/* 图片区域 */}
+
       <div className="image-area">
-        <p>Image Area</p>
+        <img
+          src="/WhatsApp Image 2024-11-05 at 11.36.10.jpeg"
+          alt="Image Area"
+          style={{ width: '400px', height: '300px', borderRadius: '8px' }}
+        />
       </div>
 
-      {/* 上传音乐的链接键 */}
       <input
         type="file"
         accept="audio/*"
@@ -45,27 +83,24 @@ const App: React.FC = () => {
         Upload Music
       </label>
 
-      {/* 搜索按钮 */}
       <button className="search-button" onClick={handleSearch}>
         Search
       </button>
 
-      {/* 显示识别到的音乐名字 */}
-      {musicName && (
-        <div className="music-name">
-          {musicName}
-        </div>
-      )}
-
-      {/* 音频播放器（播放识别出来的音频） */}
-      {recognizedAudioURL && (
-        <div className="audio-player">
-          <h2>Your recognized music...</h2>
-          <audio controls src={recognizedAudioURL} style={{ width: '100%', borderRadius: '8px', backgroundColor: '#f5f5f5', display: 'block' }}>
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      )}
+      <div className="results">
+        <h2>Search Results</h2>
+        {results.length === 0 && <p>No results found.</p>}
+        {results.map((result) => (
+          <div key={result.id} className="result-item">
+            <p><strong>Song ID:</strong> {result.id}</p>
+            <p><strong>Score:</strong> {result.score.toFixed(2)}</p>
+            {/* 从 metadata 中提取 audioUrl */}
+            <audio controls src={result.metadata.audioUrl} style={{ width: '100%', borderRadius: '8px', backgroundColor: '#f5f5f5' }}>
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
