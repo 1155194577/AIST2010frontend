@@ -8,7 +8,7 @@ const post = async <TpostData, Tresponse>(
     return res as Tresponse;
   };
 
-  export const getQueryResult = async (data) => {
+  export const getQueryResult = async (data : any) => {
     // example usage : 
     // const data = {
     //     "values": [
