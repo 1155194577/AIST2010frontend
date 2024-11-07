@@ -62,11 +62,11 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <h1>Music Recognition App</h1>
+      <h1>Music Search Engine</h1>
 
       <div className="image-area">
         <img
-          src="/WhatsApp Image 2024-11-05 at 11.36.10.jpeg"
+          src="/flowChart.jpeg"
           alt="Image Area"
           style={{ width: '400px', height: '300px', borderRadius: '8px' }}
         />
