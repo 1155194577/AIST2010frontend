@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
-
+import { getQueryResult} from './service/server';
 // 定义正确的接口结构
+
 interface Match {
   id: string;
   score: number;
@@ -21,43 +22,52 @@ const App: React.FC = () => {
       setResults([]); // Clear previous results when a new file is uploaded
     }
   };
-
+ 
   const handleSearch = async () => {
     if (!selectedFile) {
       console.log("请先上传一个文件");
       return;
     }
-
+    try {
+      const simulatedResponse = await getQueryResult(
+        {
+          values: [1, 2, 3, 4, 5, 6],
+          top_k: 5,
+          include_metadata: true,
+          include_values: false,
+        }
+      )
+      console.log("sim data:", simulatedResponse);
+      setResults(simulatedResponse.data.matches);
+    } catch (error) {
+      console.error('Error during search:', error);
+    }
     // 使用新的模拟数据进行测试
-    const simulatedResponse = {
-      matches: [
-        {
-          id: "song2",
-          score: 315.312469,
-          values: [],
-          metadata: {
-            audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
-          },
-        },
-        {
-          id: "song1",
-          score: 155.427185,
-          values: [],
-          metadata: {
-            audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
-          },
-        },
-      ],
-      namespace: "embedding",
-      usage: {
-        read_units: 6,
-      },
-    };
-
-    console.log("使用新的模拟数据:", simulatedResponse);
-
-    // 将 matches 的数据直接设置为 setResults
-    setResults(simulatedResponse.matches);
+  
+    // const simulatedResponse = {
+    //   matches: [
+    //     {
+    //       id: "song2",
+    //       score: 315.312469,
+    //       values: [],
+    //       metadata: {
+    //         audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
+    //       },
+    //     },
+    //     {
+    //       id: "song1",
+    //       score: 155.427185,
+    //       values: [],
+    //       metadata: {
+    //         audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
+    //       },
+    //     },
+    //   ],
+    //   namespace: "embedding",
+    //   usage: {
+    //     read_units: 6,
+    //   },
+    // };
   };
 
   return (
