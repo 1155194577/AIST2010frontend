@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [results, setResults] = useState<Match[]>([]);
   const [topK, setTopK] = useState<number>(5);
-  const [loading, setLoading] = useState<boolean>(false);
+  //const [loading, setLoading] = useState<boolean>(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -35,7 +35,7 @@ const App: React.FC = () => {
     }
 
     try {
-      setLoading(true);
+      //setLoading(true);
 
       // 1. 上传文件到 embedding API 并获取向量
       const formData = new FormData();
@@ -71,7 +71,7 @@ const App: React.FC = () => {
     } catch (error) {
       console.error("搜索出错:", error);
     } finally {
-      setLoading(false);
+      //setLoading(false);
     }
   };
 
