@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-<<<<<<< HEAD
-=======
-import { getQueryResult} from './service/server';
-// 定义正确的接口结构
->>>>>>> main
 
 interface Match {
   id: string;
@@ -28,21 +23,16 @@ const App: React.FC = () => {
       setResults([]);
     }
   };
-<<<<<<< HEAD
 
   const handleTopKChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setTopK(Number(event.target.value));
   };
 
-=======
- 
->>>>>>> main
   const handleSearch = async () => {
     if (!selectedFile) {
       console.log("请先上传一个文件");
       return;
     }
-<<<<<<< HEAD
 
     try {
       setLoading(true);
@@ -83,58 +73,16 @@ const App: React.FC = () => {
     } finally {
       setLoading(false);
     }
-=======
-    try {
-      const simulatedResponse = await getQueryResult(
-        {
-          values: [1, 2, 3, 4, 5, 6],
-          top_k: 5,
-          include_metadata: true,
-          include_values: false,
-        }
-      )
-      console.log("sim data:", simulatedResponse);
-      setResults(simulatedResponse.data.matches);
-    } catch (error) {
-      console.error('Error during search:', error);
-    }
-    // 使用新的模拟数据进行测试
-  
-    // const simulatedResponse = {
-    //   matches: [
-    //     {
-    //       id: "song2",
-    //       score: 315.312469,
-    //       values: [],
-    //       metadata: {
-    //         audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
-    //       },
-    //     },
-    //     {
-    //       id: "song1",
-    //       score: 155.427185,
-    //       values: [],
-    //       metadata: {
-    //         audioUrl: "https://aist2010.s3.amazonaws.com/task1.wav?AWSAccessKeyId=AKIAQ3EGSQAXAXG3ELBF&Signature=B5EMN8eZBYTG6xjdA3LaUUW3Ia8%3D&Expires=1761923151",
-    //       },
-    //     },
-    //   ],
-    //   namespace: "embedding",
-    //   usage: {
-    //     read_units: 6,
-    //   },
-    // };
->>>>>>> main
   };
 
   return (
     <div className="container">
-      <h1>Music Search Engine</h1>
+      <h1>Music Recognition App</h1>
 
       {/* 图片区域 */}
       <div className="image-area">
         <img
-          src="/flowChart.jpeg"
+          src="public\flowChart.jpeg"
           alt="Image Area"
           style={{ width: '400px', height: '300px', borderRadius: '8px' }}
         />
