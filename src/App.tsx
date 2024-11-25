@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -15,7 +15,27 @@ const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [results, setResults] = useState<Match[]>([]);
   const [topK, setTopK] = useState<number>(5);
-  //const [loading, setLoading] = useState<boolean>(false);
+  const [namespaces, setNamespaces] = useState<string[]>([]);
+  const [namespace, setNamespace] = useState<string>('embedding'); // 默认 namespace
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchNamespaces = async () => {
+      try {
+        const response = await axios.get(
+          'http://ec2-18-234-78-89.compute-1.amazonaws.com:5000/api/v1/indexes/aist2010/stats',
+          { headers: { 'accept': 'application/json' } }
+        );
+        setNamespaces(response.data.namespaces.length > 0 ? response.data.namespaces : ['embedding']);
+
+      } catch (error) {
+        console.error('Failed to fetch namespaces:', error);
+      }
+    };
+
+    fetchNamespaces();
+  }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -54,7 +74,7 @@ const App: React.FC = () => {
 
       // 2. 使用返回的向量调用 getQueryResult
       const queryResponse = await axios.post(
-        'http://ec2-18-234-78-89.compute-1.amazonaws.com:5000/api/v1/vector/aist2010/embedding/search',
+        `http://ec2-18-234-78-89.compute-1.amazonaws.com:5000/api/v1/vector/aist2010/${namespace}/search`,
         {
           values: embedding, // 传入 embedding
           top_k: topK,
@@ -69,9 +89,10 @@ const App: React.FC = () => {
       console.log("Query Response:", queryResponse.data);
       setResults(queryResponse.data.matches); // 设置结果
     } catch (error) {
+      setError('搜索出错，请稍后再试！');
       console.error("搜索出错:", error);
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -101,8 +122,8 @@ const App: React.FC = () => {
           Upload Music
         </label>
 
-        <button className="search-button" onClick={handleSearch}>
-          Search
+        <button className="search-button" onClick={handleSearch} disabled={loading}>
+          {loading ? 'Searching...' : 'Search'}
         </button>
 
         <div className="top-k-selector">
@@ -115,8 +136,22 @@ const App: React.FC = () => {
             ))}
           </select>
         </div>
+        <div className="namespace-selector">
+          <label htmlFor="namespace-select">Namespace:</label>
+          <select
+            id="namespace-select"
+            value={namespace}
+            onChange={(event) => setNamespace(event.target.value)}
+          >
+            {namespaces.map((ns) => (
+              <option key={ns} value={ns}>
+                {ns}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-
+      {error && <div className="error-message">{error}</div>}
       {/* 搜索结果 */}
       <div className="results">
         <h2>Search Results</h2>
