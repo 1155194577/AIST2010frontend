@@ -10,6 +10,14 @@ interface Match {
     audioUrl: string;
   };
 }
+const namespaceImages: { [key: string]: string } = {
+  S: "https://aistimage.s3.amazonaws.com/S.jpeg?AWSAccessKeyId=AKIAQ3EGSQAXKBQHHQR2&Signature=Kwja8yTH0cqbYOaZ2ELIqN5BjQA%3D&Expires=1764122279",
+  M: "https://aistimage.s3.amazonaws.com/M.jpeg?AWSAccessKeyId=AKIAQ3EGSQAXKBQHHQR2&Signature=zpBJRA0uN9Y1ovSPab2YvhjPf6I%3D&Expires=1764122279",
+  L: "https://aistimage.s3.amazonaws.com/L.jpeg?AWSAccessKeyId=AKIAQ3EGSQAXKBQHHQR2&Signature=yijYBoWfW0X9z2f%2F0h4uzK2fl8U%3D&Expires=1764122279",
+  XL: "https://aistimage.s3.amazonaws.com/XL.jpeg?AWSAccessKeyId=AKIAQ3EGSQAXKBQHHQR2&Signature=gXuPqj4%2B%2F7q2qCHhnHIKFJjnb0w%3D&Expires=1764122279",
+  XS: "https://aistimage.s3.amazonaws.com/XS.jpeg?AWSAccessKeyId=AKIAQ3EGSQAXKBQHHQR2&Signature=PBR7JmXg0GsGOvNWvMDEn1ghxD8%3D&Expires=1764122279",
+};
+
 
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -103,8 +111,8 @@ const App: React.FC = () => {
       {/* 图片区域 */}
       <div className="image-area">
         <img
-          src="public\flowChart.jpeg"
-          alt="Image Area"
+          src={namespaceImages[namespace] ||'flowChart.jpeg'}
+          alt="Namespace Image"
           style={{ width: '400px', height: '300px', borderRadius: '8px' }}
         />
       </div>
